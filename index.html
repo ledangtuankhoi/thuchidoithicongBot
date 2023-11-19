@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Bot Menu</title>
+</head>
+<body>
+    <button onclick="sendMessage('/start')">Bắt đầu</button>
+    <button onclick="sendMessage('/expense')">Ghi chi tiêu</button>
+    <button onclick="sendMessage('/balance')">Xem số dư</button>
+
+    <script>
+        function sendMessage(command) {
+            // Gửi lệnh đến Telegram Bot sử dụng Bot API
+            // Sử dụng Ajax hoặc fetch API để thực hiện GET request đến server của bạn
+            // Ví dụ: fetch(`/sendMessage?command=${encodeURIComponent(command)}`);
+            alert(`Đã gửi lệnh: ${command}`);
+        }
+    </script>
+   <form id="miniAppForm">
+        <label for="stt">STT:</label>
+        <input type="text" id="stt" name="stt" required><br>
+
+        <label for="ngay">NGÀY:</label>
+        <input type="text" id="ngay" name="ngay" required><br>
+
+        <label for="moTa">MÔ TẢ:</label>
+        <input type="text" id="moTa" name="moTa" required><br>
+
+        <label for="donVi">ĐVT:</label>
+        <input type="text" id="donVi" name="donVi" required><br>
+
+        <label for="thanhTien">THÀNH TIỀN VND:</label>
+        <input type="text" id="thanhTien" name="thanhTien" required><br>
+
+        <label for="duAn">THUỘC DỰ ÁN:</label>
+        <input type="text" id="duAn" name="duAn" required><br>
+
+        <label for="ghiChu">GHI CHÚ:</label>
+        <input type="text" id="ghiChu" name="ghiChu" required><br>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            // Lấy giá trị từ các trường và xử lý
+            const stt = document.getElementById('stt').value;
+            const ngay = document.getElementById('ngay').value;
+            const moTa = document.getElementById('moTa').value;
+            const donVi = document.getElementById('donVi').value;
+            const thanhTien = document.getElementById('thanhTien').value;
+            const duAn = document.getElementById('duAn').value;
+            const ghiChu = document.getElementById('ghiChu').value;
+
+            // Gửi dữ liệu đến Telegram Bot sử dụng Bot API
+            // Sử dụng Ajax hoặc fetch API để thực hiện POST request đến server của bạn
+            // Ví dụ: fetch('/submit', { method: 'POST', body: { stt, ngay, moTa, donVi, thanhTien, duAn, ghiChu } });
+
+            // Hiển thị thông báo hoặc chuyển hướng nếu cần thiết
+            alert('Dữ liệu đã được gửi thành công!');
+        }
+    </script>
+</body>
+</html>
