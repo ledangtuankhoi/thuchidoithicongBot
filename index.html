@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Bot Menu</title>
 </head>
+
 <body>
     <button onclick="sendMessage('/start')">Bắt đầu</button>
     <button onclick="sendMessage('/expense')">Ghi chi tiêu</button>
@@ -18,32 +20,56 @@
             alert(`Đã gửi lệnh: ${command}`);
         }
     </script>
-   <form id="miniAppForm">
+    <form id="miniAppForm">
         <label for="stt">STT:</label>
-        <input type="text" id="stt" name="stt" required><br>
+        <input value="" type="text" id="stt" name="stt" value="" required><br>
 
         <label for="ngay">NGÀY:</label>
-        <input type="text" id="ngay" name="ngay" required><br>
+        <input value="" type="text" id="ngay" name="ngay" required><br>
 
         <label for="moTa">MÔ TẢ:</label>
-        <input type="text" id="moTa" name="moTa" required><br>
+        <input value="mũi khoan" type="text" id="moTa" name="moTa" required><br>
 
         <label for="donVi">ĐVT:</label>
-        <input type="text" id="donVi" name="donVi" required><br>
+        <input value="cái" type="text" id="donVi" name="donVi" required><br>
 
         <label for="thanhTien">THÀNH TIỀN VND:</label>
-        <input type="text" id="thanhTien" name="thanhTien" required><br>
+        <input value="400" type="text" id="thanhTien" name="thanhTien" required><br>
 
         <label for="duAn">THUỘC DỰ ÁN:</label>
-        <input type="text" id="duAn" name="duAn" required><br>
+        <input value="an toàn lao động" type="text" id="duAn" name="duAn" required><br>
 
         <label for="ghiChu">GHI CHÚ:</label>
-        <input type="text" id="ghiChu" name="ghiChu" required><br>
+        <input value="" type="text" id="ghiChu" name="ghiChu" required><br>
 
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
 
     <script>
+
+        var TOKEN = "6875483919:AAF0W7NkMtSy4dcSTfKdwojua6BJFFwmcds";
+        var SPREADSHEET_ID = "1bTDrx5_2i-nnga4XtOVAmKfOsX0AKDqlw1bAn2VbT0g";
+        var YOUR_APPS_SCRIPT_ID =
+            "AKfycbzYrQZtFVJxaZI50i7Y3mWJ1irZzE4Aix2EX_zDL2dqHwFWk3uhSRcHrkT-kqLI39JS7Q";
+        var CHAT_ID_ADMIN = "1736875948";
+        var LOG_SYSTEM = "LOG-SYSTEM";
+
+
+        function sendMessage(text, chatId = CHAT_ID_ADMIN) {
+            var payload = {
+                method: "sendMessage",
+                chat_id: String(chatId),
+                text: text,
+            };
+
+            var options = {
+                method: "post",
+                contentType: "application/json",
+                payload: JSON.stringify(payload),
+            };
+            console.log({"options": options});
+            fetch("https://api.telegram.org/bot" + TOKEN + "/", options);
+        }
         function submitForm() {
             // Lấy giá trị từ các trường và xử lý
             const stt = document.getElementById('stt').value;
@@ -59,8 +85,11 @@
             // Ví dụ: fetch('/submit', { method: 'POST', body: { stt, ngay, moTa, donVi, thanhTien, duAn, ghiChu } });
 
             // Hiển thị thông báo hoặc chuyển hướng nếu cần thiết
-            alert('Dữ liệu đã được gửi thành công!');
+            // alert('Dữ liệu đã được gửi thành công!');
+            console.log({"ngay": moTa});
+            sendMessage(moTa);
         }
     </script>
 </body>
+
 </html>
