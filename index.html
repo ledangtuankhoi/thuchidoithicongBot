@@ -55,13 +55,21 @@
         var LOG_SYSTEM = "LOG-SYSTEM";
 
         async function callDoPost() {
-            var url ="https://script.google.com/macros/s/" + YOUR_APPS_SCRIPT_ID + "/exec";
+            // https://script.google.com/macros/s/AKfycbzYrQZtFVJxaZI50i7Y3mWJ1irZzE4Aix2EX_zDL2dqHwFWk3uhSRcHrkT-kqLI39JS7Q/exec
+            var url = "https://script.google.com/macros/s/" + YOUR_APPS_SCRIPT_ID + "/exec";
+            // Tạo header cho phản hồi với quyền truy cập cho trang web
+            var headers = {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': origin,
+                'Access-Control-Allow-Methods': 'POST',
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Max-Age': '3600',
+            };
+
             try {
                 const response = await fetch(url, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: headers,
                     body: JSON.stringify({ key: 'value' }),
                 });
 
