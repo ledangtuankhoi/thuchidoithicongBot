@@ -27,20 +27,20 @@
         <label for="ngay">NGÀY:</label>
         <input value="" type="text" id="ngay" name="ngay" required><br>
 
-        <label for="moTa">MÔ TẢ:</label>
-        <input value="mũi khoan" type="text" id="moTa" name="moTa" required><br>
+        <label for="description">MÔ TẢ:</label>
+        <input value="mũi khoan" type="text" id="description" name="description" required><br>
 
-        <label for="donVi">ĐVT:</label>
-        <input value="cái" type="text" id="donVi" name="donVi" required><br>
+        <label for="unit">ĐVT:</label>
+        <input value="ký" type="text" id="unit" name="unit" required><br>
 
-        <label for="thanhTien">THÀNH TIỀN VND:</label>
-        <input value="400" type="text" id="thanhTien" name="thanhTien" required><br>
+        <label for="total">THÀNH TIỀN VND:</label>
+        <input value="400" type="text" id="total" name="total" required><br>
 
-        <label for="duAn">THUỘC DỰ ÁN:</label>
-        <input value="an toàn lao động" type="text" id="duAn" name="duAn" required><br>
+        <label for="belong-of-project">THUỘC DỰ ÁN:</label>
+        <input value="an toàn lao động" type="text" id="belong-of-project" name="belong-of-project" required><br>
 
-        <label for="ghiChu">GHI CHÚ:</label>
-        <input value="" type="text" id="ghiChu" name="ghiChu" required><br>
+        <label for="note">GHI CHÚ:</label>
+        <input value="" type="text" id="note" name="note" required><br>
 
         <button type="button" onclick="submitForm()">Submit</button>
     </form>
@@ -54,40 +54,72 @@
         var CHAT_ID_ADMIN = "1736875948";
         var LOG_SYSTEM = "LOG-SYSTEM";
 
+        async function callDoPost() {
+            var url ="https://script.google.com/macros/s/" + YOUR_APPS_SCRIPT_ID + "/exec";
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ key: 'value' }),
+                });
 
-        function sendMessage(text, chatId = CHAT_ID_ADMIN) {
-            var payload = {
-                method: "sendMessage",
-                chat_id: String(chatId),
-                text: text,
-            };
+                if (!response.ok) {
+                    throw new Error('Có lỗi xảy ra khi gửi yêu cầu.');
+                }
 
-            var options = {
-                method: "post",
-                contentType: "application/json",
-                payload: JSON.stringify(payload),
-            };
-            console.log({"options": options});
-            fetch("https://api.telegram.org/bot" + TOKEN + "/", options);
+                const data = await response.json();
+                console.log('Phản hồi từ Google Apps Script:', data);
+            } catch (error) {
+                console.error('Lỗi:', error.message);
+            }
+        }
+
+        async function sendMessage(command) {
+            try {
+                const token = TOKEN;
+                const chatId = CHAT_ID_ADMIN; // Thay thế bằng chat ID của người nhận tin nhắn
+
+                const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: `Command received: ${command}`,
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Có lỗi xảy ra khi gửi yêu cầu.');
+                }
+
+                const data = await response.json();
+                // alert(`Đã gửi lệnh: ${command}\nPhản hồi từ bot: ${data.result.text}`);
+            } catch (error) {
+                console.error('Lỗi:', error.message);
+                // alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            }
         }
         function submitForm() {
             // Lấy giá trị từ các trường và xử lý
-            const stt = document.getElementById('stt').value;
-            const ngay = document.getElementById('ngay').value;
-            const moTa = document.getElementById('moTa').value;
-            const donVi = document.getElementById('donVi').value;
-            const thanhTien = document.getElementById('thanhTien').value;
-            const duAn = document.getElementById('duAn').value;
-            const ghiChu = document.getElementById('ghiChu').value;
+            const moTa = document.getElementById('description').value;
+            const unit = document.getElementById('unit').value;
+            const total = document.getElementById('total').value;
+            const belongOfProject = document.getElementById('belong-of-project').value;
+            const note = document.getElementById('note').value;
 
             // Gửi dữ liệu đến Telegram Bot sử dụng Bot API
             // Sử dụng Ajax hoặc fetch API để thực hiện POST request đến server của bạn
-            // Ví dụ: fetch('/submit', { method: 'POST', body: { stt, ngay, moTa, donVi, thanhTien, duAn, ghiChu } });
+            // Ví dụ: fetch('/submit', { method: 'POST', body: { stt, ngay, description, unit, total, belong-of-project, note } });
 
             // Hiển thị thông báo hoặc chuyển hướng nếu cần thiết
             // alert('Dữ liệu đã được gửi thành công!');
-            console.log({"ngay": moTa});
-            sendMessage(moTa);
+            console.log({ "ngay": description });
+            sendMessage(description);
+            callDoPost();
         }
     </script>
 </body>
